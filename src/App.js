@@ -37,9 +37,9 @@ function App() {
     <CacheProvider value={cacheRtl}>
       <ThemeProvider theme={theme}>
 
-        {/* <Home></Home> */}
+        <Home></Home>
         {/* <SignUp></SignUp> */}
-        <SignIn></SignIn>
+        {/* <SignIn></SignIn> */}
 
       </ThemeProvider>
       </CacheProvider>

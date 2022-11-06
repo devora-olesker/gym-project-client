@@ -15,17 +15,40 @@ import { createTheme } from '@mui/material/styles';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider, ThemeProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
-import { prefixer } from 'stylis';
+import { from, prefixer } from 'stylis';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+}from 'chart.js'
 import { Bar } from 'react-chartjs-2';
-import Chart from './Chart';
+import BarChart from './BarChart';
+
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+)
 
 export default function Home() {
 
     const [auth, setAuth] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [chartData, setChartData] = useState({});
+    const [chartData, setChartData] = useState({
+        datasets:[]
+    });
+
+    const [chartOptions, setChartOptions]= useState({})
+
 
     useEffect(() => {
         //לעשות קריאת שרת פה ולמלאות את chartdata בנתונים אמיתיים
@@ -37,6 +60,15 @@ export default function Home() {
                     data: [20, 60, 40, 120]
                 }
             ]
+        })
+        setChartOptions({
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: "כמות הזמן בדקות"
+                }
+            }
         })
     }, []);
 
@@ -99,8 +131,8 @@ export default function Home() {
 
                 </Toolbar>
             </AppBar>
-        <Chart chartData={chartData}></Chart>
-
+        {/* <Chart chartData={chartData}></Chart> */}
+        <BarChart chartData={chartData} chartOptions={chartOptions}></BarChart>
 
         </Box >
 
