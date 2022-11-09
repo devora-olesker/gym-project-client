@@ -6,16 +6,9 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import Switch from '@mui/material/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import { createTheme } from '@mui/material/styles';
-import rtlPlugin from 'stylis-plugin-rtl';
-import { CacheProvider, ThemeProvider } from '@emotion/react';
-import createCache from '@emotion/cache';
-import { from, prefixer } from 'stylis';
+import Grid2 from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { useState } from 'react';
 import { useEffect } from 'react';
 import {
@@ -26,9 +19,10 @@ import {
     Title,
     Tooltip,
     Legend
-}from 'chart.js'
+} from 'chart.js'
 import { Bar } from 'react-chartjs-2';
 import BarChart from './BarChart';
+import { margin } from '@mui/system';
 
 ChartJS.register(
     CategoryScale,
@@ -44,10 +38,10 @@ export default function Home() {
     const [auth, setAuth] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [chartData, setChartData] = useState({
-        datasets:[]
+        datasets: []
     });
 
-    const [chartOptions, setChartOptions]= useState({})
+    const [chartOptions, setChartOptions] = useState({})
 
 
     useEffect(() => {
@@ -131,8 +125,15 @@ export default function Home() {
 
                 </Toolbar>
             </AppBar>
-        {/* <Chart chartData={chartData}></Chart> */}
-        <BarChart chartData={chartData} chartOptions={chartOptions}></BarChart>
+            <Grid2 container spacing={2}>
+                <Grid2 xs={6}>
+                    <Box sx={{margin: '25px'}}>                   
+                         <BarChart chartData={chartData} chartOptions={chartOptions}></BarChart>
+                    </Box>
+                </Grid2>
+
+
+            </Grid2>
 
         </Box >
 
