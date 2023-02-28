@@ -65,7 +65,6 @@ export default function SignIn() {
         console.log(user);
       })
       .catch((error) => {
-        console.log("error 🤢", error)
         if (error.response.status === 400) {
           const message=error.response.data;
           if (message == "User does not exist") {

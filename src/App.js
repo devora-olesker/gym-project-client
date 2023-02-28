@@ -38,8 +38,8 @@ function App() {
       <ThemeProvider theme={theme}>
 
         {/* <Home></Home> */}
-        {/* <SignUp></SignUp> */}
-        <SignIn></SignIn>
+        <SignUp></SignUp>
+        {/* <SignIn></SignIn> */}
 
       </ThemeProvider>
       </CacheProvider>
