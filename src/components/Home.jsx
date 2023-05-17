@@ -23,7 +23,9 @@ import {
 import { Bar } from 'react-chartjs-2';
 import BarChart from './BarChart';
 import { margin } from '@mui/system';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../Redux/UserSlice';
+import { useNavigate } from 'react-router';
 
 ChartJS.register(
     CategoryScale,
@@ -43,7 +45,8 @@ export default function Home() {
     });
 
     const [chartOptions, setChartOptions] = useState({})
-
+    const dispatch= useDispatch();
+    const navigate=useNavigate()
 
     useEffect(() => {
         //לעשות קריאת שרת פה ולמלאות את chartdata בנתונים אמיתיים
@@ -66,6 +69,12 @@ export default function Home() {
             }
         })
     }, []);
+
+    const logOut=()=>{
+        dispatch(logout());
+        handleClose()
+        navigate("/", {replace:true})
+    }
 
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
@@ -120,7 +129,7 @@ export default function Home() {
                             onClose={handleClose}
                         >
                             <MenuItem onClick={handleClose}>עדכון פרטי חשבון</MenuItem>
-                            <MenuItem onClick={handleClose}>יציאה</MenuItem>
+                            <MenuItem onClick={logOut}>יציאה</MenuItem>
                         </Menu>
                     </div>
 

@@ -48,20 +48,20 @@ export default function SignUp() {
     dateOfBirth: "2000-12-04T00:00:00.000Z",
   });
   const [tzError, setTzError] = useState({ err: false, msg: "" });
+  const user=useSelector((state=>state.user.user))
 
   const dispatch= useDispatch();
-  const user=useSelector((state=>state.user.user))
   const navigate=useNavigate()
 
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("user Data...", userData);
     axios
-      .post(`http://localhost:1234/api/usersController/addNewUser`, JSON.stringify(userData) )
+      .post(`http://localhost:1234/api/usersController/addNewUser`, userData )
       .then((res) => {
         setTzError({ err: false, msg: "" });
         dispatch(logIn(res.data));
-        navigate('HomePage')
+        navigate('../HomePage',{ replace: true })
 
       })
       .catch((error) => {
@@ -72,6 +72,10 @@ export default function SignUp() {
         }
       });
   };
+
+  React.useEffect( () => {
+    console.log("userrr😝",user)
+  }, [user]);
 
   return (
     <ThemeProvider theme={theme}>
