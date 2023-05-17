@@ -5,7 +5,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -14,6 +13,9 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logIn } from "../Redux/UserSlice";
 
 function Copyright(props) {
   return (
@@ -43,32 +45,29 @@ export default function SignUp() {
     lastName: "",
     email: "",
     phone: "",
-    dateOfBirth: "",
+    dateOfBirth: "2000-12-04T00:00:00.000Z",
   });
   const [tzError, setTzError] = useState({ err: false, msg: "" });
 
+  const dispatch= useDispatch();
+  const user=useSelector((state=>state.user.user))
+  const navigate=useNavigate()
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    
+    console.log("user Data...", userData);
     axios
-      .post(`http://localhost:1234/api/usersController/addNewUser`, {
-        "id": "123456789",
-        "password": "aaa",
-        "firstName": "אלישבע",
-        "lastName": "ישראל",
-        "email":"hhh" ,
-        "phone": "0876578877",
-        "dateOfBirth": "2000-12-04T00:00:00.000Z"
-      })
+      .post(`http://localhost:1234/api/usersController/addNewUser`, JSON.stringify(userData) )
       .then((res) => {
         setTzError({ err: false, msg: "" });
-        console.log("user", res.data);
+        dispatch(logIn(res.data));
+        navigate('HomePage')
+
       })
       .catch((error) => {
-        console.log("error😁",error);
+        console.log("error😁", error);
         if (error.response.status === 400) {
           const message = error.response.data;
-
           setTzError({ err: true, msg: message });
         }
       });
@@ -131,7 +130,7 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
+                {/* <TextField
                   helperText="תאריך לידה"
                   size="small"
                   required
@@ -143,9 +142,12 @@ export default function SignUp() {
                   type="date"
                   value={userData.dateOfBirth}
                   onChange={(e) =>
-                    setUserData({ ...userData, dateOfBirth:"2000-12-04T00:00:00.000Z" })
+                    setUserData({
+                      ...userData,
+                      dateOfBirth: "2000-12-04T00:00:00.000Z",
+                    })
                   }
-                />
+                /> */}
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -224,7 +226,7 @@ export default function SignUp() {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link to={window.location.origin} variant="body2">
                   משתמש רשום? התחברות
                 </Link>
               </Grid>

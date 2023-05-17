@@ -5,7 +5,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -16,6 +15,9 @@ import singInPic from "../pics/singInPic.jpg";
 import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { logIn } from "../Redux/UserSlice";
+import { Link, useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -40,29 +42,31 @@ const theme = createTheme();
 export default function SignIn() {
   const [tz, setTz] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState({});
+  // const [user, setUser] = useState({});
   const [tzError, setTzError] = useState({ err: false, msg: "" });
   const [passwordError, setPasswordError] = useState({ err: false, msg: "" });
-
+  const dispatch= useDispatch();
+  const user=useSelector((state=>state.user.user))
+  const navigate=useNavigate()
   // const getData = async (url) => {
   //   const { data } = await axios.get(url);
   //   console.log(data);
   // };
 
-  // useEffect(async () => {
-  //   const url = "http://localhost:1234/api/machinesController/getAllMachines";
-  //   getData(url);
-  // }, []);
+  useEffect( () => {
+    console.log("userrr😝",user)
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     //send to function fromm backend that meneges login
     axios.get(`http://localhost:1234/api/usersController/logIn/${tz}/${password}`)
       .then((res) => {
-        setUser(res.data);
+        // setUser(res.data);
+        dispatch(logIn(res.data));
         setTzError({ err: false, msg: "" })
         setPasswordError({ err: false, msg: "" })
-        console.log(user);
+        navigate('HomePage')
       })
       .catch((error) => {
         if (error.response.status === 400) {
@@ -190,7 +194,7 @@ export default function SignIn() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link  to="SignUp" variant="body2">
                     {"אין לך חשבון? הרשמה"}
                   </Link>
                 </Grid>

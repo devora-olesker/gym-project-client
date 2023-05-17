@@ -23,6 +23,7 @@ import {
 import { Bar } from 'react-chartjs-2';
 import BarChart from './BarChart';
 import { margin } from '@mui/system';
+import { useSelector } from 'react-redux';
 
 ChartJS.register(
     CategoryScale,
@@ -34,7 +35,7 @@ ChartJS.register(
 )
 
 export default function Home() {
-
+    const currentUser=useSelector(state=>state.user.user)
     const [auth, setAuth] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [chartData, setChartData] = useState({
@@ -89,7 +90,7 @@ export default function Home() {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        שלום דבורי
+                       { `שלום ${currentUser.firstName}`}
                     </Typography>
 
                     <div>
